@@ -37,4 +37,4 @@ dependencies {
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
 }
 
-apply from: 'https://raw.githubusercontent.com/venshine/gradle-bintray-upload/master/bintray.gradle'
+apply from: 'https://raw.githubusercontent.com/komayip/gradle-bintray-upload/master/bintray.gradle'
