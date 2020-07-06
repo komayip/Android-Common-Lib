@@ -1,2 +1,2 @@
 # Android-Common-Lib
-Common library used in android dec
+Common library used in android development
