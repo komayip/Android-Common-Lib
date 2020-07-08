@@ -41,8 +41,12 @@ abstract class BaseRVBindingAdapter<T, VH : BaseBindingViewHolder<T>>  : Recycle
     override fun getItemCount(): Int = dataSource.size
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        itemAt(position)?.let {
-            holder.bindExecution(it)
+        itemAt(position)?.let { item ->
+            holder.bindExecution(item)
+            // add an on item click listener
+            holder.itemView.setOnClickListener{
+                mOnCellClickSubject.onNext(item)
+            }
         }
     }
 

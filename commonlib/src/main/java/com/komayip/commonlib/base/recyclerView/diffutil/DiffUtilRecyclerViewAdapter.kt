@@ -4,6 +4,7 @@ import androidx.recyclerview.widget.DiffUtil
 import com.komayip.commonlib.base.recyclerView.BaseBindingViewHolder
 import com.komayip.commonlib.base.recyclerView.BaseRVBindingAdapter
 import io.reactivex.Observable
+import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.schedulers.Schedulers
 
 abstract class DiffUtilRecyclerViewAdapter<T, VH : BaseBindingViewHolder<T>> :
@@ -62,7 +63,8 @@ abstract class DiffUtilRecyclerViewAdapter<T, VH : BaseBindingViewHolder<T>> :
 
         synchronized(dataSource) {
             Observable.just(DiffUtil.calculateDiff(diffCallback))
-                .observeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribeOn(Schedulers.newThread())
                 .doOnNext {
                     dataSource.clear()
                     dataSource.addAll(newList)
