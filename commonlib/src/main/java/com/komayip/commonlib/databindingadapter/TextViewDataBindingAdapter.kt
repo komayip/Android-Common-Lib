@@ -10,6 +10,9 @@ import androidx.annotation.StringRes
 import androidx.databinding.BindingAdapter
 import com.komayip.commonlib.R
 
+/**
+ * Useful Common Data Binding Adapter For TextView Class
+ */
 class TextViewDataBindingAdapter {
 
     companion object {
@@ -31,25 +34,6 @@ class TextViewDataBindingAdapter {
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_PX, tv.context.resources.getDimension(res))
             } catch (e: Exception) {
                 tv.setTextSize(TypedValue.COMPLEX_UNIT_PX,tv.context.resources.getDimension(R.dimen.medium))
-            }
-        }
-
-        @JvmStatic
-        @BindingAdapter(value= ["htmlString", "htmlStringArg1"], requireAll = false)
-        fun setHtmlString(tv: TextView, @StringRes res: Int, arg1: Any?) {
-            if (res == 0)
-                return
-
-            val s = if (arg1 == null) {
-                tv.context.getString(res)
-            } else {
-                tv.context.getString(res, arg1)
-            }
-
-            if (!TextUtils.isEmpty(s)) {
-                tv.text = Html.fromHtml(s)
-            } else {
-                tv.text = ""
             }
         }
 

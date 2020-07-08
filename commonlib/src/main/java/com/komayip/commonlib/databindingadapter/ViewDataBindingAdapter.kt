@@ -4,6 +4,9 @@ import android.view.View
 import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
 
+/**
+ * Useful Common Data Binding Adapter For View Class
+ */
 class ViewDataBindingAdapter {
 
     companion object {

@@ -6,6 +6,9 @@ import androidx.annotation.DrawableRes
 import androidx.databinding.BindingAdapter
 import java.lang.Exception
 
+/**
+ * Useful Common Data Binding Adapter For ImageView Class
+ */
 class ImageViewDataBindingAdapter {
 
     companion object {
