@@ -17,9 +17,7 @@ import io.reactivex.subjects.PublishSubject
 abstract class BaseRVBindingAdapter<T, VH : BaseBindingViewHolder<T>>  : RecyclerView.Adapter<VH>() {
 
     private val mOnCellClickSubject = PublishSubject.create<T>()
-    protected val mDataSource = arrayListOf<T>()
-
-    abstract fun itemAt(position: Int): T
+    protected val dataSource = arrayListOf<T>()
 
     /**
      * to create the data binding of the recycler view layout
@@ -36,14 +34,24 @@ abstract class BaseRVBindingAdapter<T, VH : BaseBindingViewHolder<T>>  : Recycle
     /**
      * subscribe to observe on cell clicked event
      */
-    protected fun onCellClicked(): Observable<T> {
+    fun onCellClicked(): Observable<T> {
         return mOnCellClickSubject
     }
 
-    override fun getItemCount(): Int = mDataSource.size
+    override fun getItemCount(): Int = dataSource.size
 
     override fun onBindViewHolder(holder: VH, position: Int) {
-        holder.bindExecution(itemAt(position))
+        itemAt(position)?.let {
+            holder.bindExecution(it)
+        }
+    }
+
+    open fun itemAt(position: Int): T? {
+        if (position >= dataSource.size) {
+            return null
+        }
+
+        return dataSource[position]
     }
 
     /**
@@ -57,14 +65,14 @@ abstract class BaseRVBindingAdapter<T, VH : BaseBindingViewHolder<T>>  : Recycle
      * append list of source
      */
     open fun append(data: List<T>) {
-        mDataSource.addAll(data)
+        dataSource.addAll(data)
     }
 
     /**
      * set current source with another source
      */
     open fun set(data: List<T>) {
-        mDataSource.clear()
+        dataSource.clear()
         append(data)
         notifyDataSetChanged()
     }
@@ -73,7 +81,7 @@ abstract class BaseRVBindingAdapter<T, VH : BaseBindingViewHolder<T>>  : Recycle
      * clear data
      */
     open fun clear() {
-        mDataSource.clear()
+        dataSource.clear()
         notifyDataSetChanged()
     }
 }

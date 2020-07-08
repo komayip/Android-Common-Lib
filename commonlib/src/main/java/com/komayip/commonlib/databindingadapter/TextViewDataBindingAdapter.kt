@@ -47,6 +47,17 @@ class TextViewDataBindingAdapter {
             }
         }
 
+        @JvmStatic
+        @BindingAdapter("htmlString")
+        fun setHtmlString(tv: TextView, @StringRes res: Int) {
+            if (res == 0) {
+                return
+            }
+
+            val s = tv.context.getString(res)
+            setHtmlString(tv, s)
+        }
+
         @BindingAdapter(value = ["android:text", "underline"], requireAll = true)
         @JvmStatic
         fun setUnderlineText(tv: TextView, s: String?, underline: Boolean?) {

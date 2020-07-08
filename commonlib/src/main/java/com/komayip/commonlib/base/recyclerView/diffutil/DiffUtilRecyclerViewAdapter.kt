@@ -21,7 +21,7 @@ abstract class DiffUtilRecyclerViewAdapter<T, VH : BaseBindingViewHolder<T>> :
         }
 
         override fun getOldListSize(): Int {
-            return mDataSource.size
+            return dataSource.size
         }
 
         override fun getNewListSize(): Int {
@@ -47,25 +47,25 @@ abstract class DiffUtilRecyclerViewAdapter<T, VH : BaseBindingViewHolder<T>> :
 
     override fun append(data: List<T>) {
         val newDataList: ArrayList<T> = arrayListOf()
-        newDataList.addAll(mDataSource)
+        newDataList.addAll(dataSource)
         newDataList.addAll(data)
         compareDataList(newDataList)
     }
 
-    abstract fun areItemsTheSame(oldItem: T, newItem: T): Boolean
+    abstract fun areItemsTheSame(oldItem: T?, newItem: T): Boolean
 
-    abstract fun areContentsTheSame(oldItem: T, newItem: T): Boolean
+    abstract fun areContentsTheSame(oldItem: T?, newItem: T): Boolean
 
     private fun compareDataList(newList: List<T>) {
         listDataNew.clear()
         listDataNew.addAll(newList)
 
-        synchronized(mDataSource) {
+        synchronized(dataSource) {
             Observable.just(DiffUtil.calculateDiff(diffCallback))
                 .observeOn(Schedulers.newThread())
                 .doOnNext {
-                    mDataSource.clear()
-                    mDataSource.addAll(newList)
+                    dataSource.clear()
+                    dataSource.addAll(newList)
                     it.dispatchUpdatesTo(this)
                 }
                 .subscribe()
