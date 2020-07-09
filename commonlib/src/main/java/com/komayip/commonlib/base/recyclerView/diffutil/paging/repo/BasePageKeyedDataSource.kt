@@ -1,4 +1,4 @@
-package com.komayip.commonlib.base.recyclerView.diffutil.paging
+package com.komayip.commonlib.base.recyclerView.diffutil.paging.repo
 
 import androidx.paging.PageKeyedDataSource
 import com.komayip.commonlib.ext.disposedBy
