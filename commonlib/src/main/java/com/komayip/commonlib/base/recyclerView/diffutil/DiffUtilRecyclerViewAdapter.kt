@@ -13,7 +13,7 @@ abstract class DiffUtilRecyclerViewAdapter<T, VH : BaseBindingViewHolder<T>> :
     // the "new" list, just for comparison
     private var listDataNew: ArrayList<T> = arrayListOf()
 
-    private var diffCallback: DiffUtil.Callback = object : DiffUtil.Callback() {
+    private val diffCallback: DiffUtil.Callback = object : DiffUtil.Callback() {
         /**
          * check if the items are the same, normally we check the id
          */
