@@ -14,7 +14,9 @@ import kotlin.math.min
 /**
  * abstract class of a View Model with pagination
  */
-abstract class BasePagableViewModel<T>: BaseViewModel() {
+abstract class BasePagableViewModel<T> : BaseViewModel() {
+
+    protected lateinit var mDataSource: DataSource<*, T>
 
     /**
      * the data source
@@ -24,21 +26,20 @@ abstract class BasePagableViewModel<T>: BaseViewModel() {
     /**
      * refresh the paging source, ie, reset to initial page
      */
-    fun refreshData() {
-        ldDataSource.value?.dataSource?.invalidate()
+    private fun refreshData() {
+        mDataSource.invalidate()
     }
 
     open fun fetchExecutor(): ExecutorService {
         val threads = Runtime.getRuntime().availableProcessors() + 1
         return Executors.newFixedThreadPool(threads)
     }
-
 }
 
 /**
  * abstract class of view model which the pagination is with paged key, ie, page 1, 2 ... etc
  */
-abstract class PageKeyedPagableViewModel<T>: BasePagableViewModel<T>() {
+abstract class PageKeyedPagableViewModel<T> : BasePagableViewModel<T>() {
 
     /**
      * the data source list
@@ -49,9 +50,10 @@ abstract class PageKeyedPagableViewModel<T>: BasePagableViewModel<T>() {
     /**
      * the factory of creating the data source
      */
-    private val factory = object: DataSource.Factory<Int, T>() {
+    private val factory = object : DataSource.Factory<Int, T>() {
         override fun create(): DataSource<Int, T> {
-            return createDataSource()
+            mDataSource = createDataSource()
+            return mDataSource as BasePageKeyedDataSource<T>
         }
     }
 
@@ -59,8 +61,8 @@ abstract class PageKeyedPagableViewModel<T>: BasePagableViewModel<T>() {
      * the data source provider
      */
     private fun dataSourceProvider() = LivePagedListBuilder(factory, configBuilder().build())
-            .setFetchExecutor(fetchExecutor())
-            .build()
+        .setFetchExecutor(fetchExecutor())
+        .build()
 
     abstract fun createDataSource(): BasePageKeyedDataSource<T>
 
@@ -77,7 +79,7 @@ abstract class PageKeyedPagableViewModel<T>: BasePagableViewModel<T>() {
 /**
  * abstract class of view model which the pagination is with offset & page size
  */
-abstract class PositionPagableViewModel<T>: BasePagableViewModel<T>() {
+abstract class PositionPagableViewModel<T> : BasePagableViewModel<T>() {
 
     /**
      * the data source list
@@ -88,9 +90,10 @@ abstract class PositionPagableViewModel<T>: BasePagableViewModel<T>() {
     /**
      * the factory of creating the data source
      */
-    private val factory = object: DataSource.Factory<Int, T>() {
+    private val factory = object : DataSource.Factory<Int, T>() {
         override fun create(): DataSource<Int, T> {
-            return createDataSource()
+            mDataSource = createDataSource()
+            return mDataSource as BasePositionalDataSource<T>
         }
     }
 
