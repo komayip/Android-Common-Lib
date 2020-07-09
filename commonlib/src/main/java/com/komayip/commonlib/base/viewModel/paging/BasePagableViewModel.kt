@@ -26,7 +26,7 @@ abstract class BasePagableViewModel<T> : BaseViewModel() {
     /**
      * refresh the paging source, ie, reset to initial page
      */
-    private fun refreshData() {
+    fun refreshData() {
         mDataSource.invalidate()
     }
 
