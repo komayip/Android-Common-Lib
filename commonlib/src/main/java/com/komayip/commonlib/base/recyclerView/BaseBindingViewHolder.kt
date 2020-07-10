@@ -11,6 +11,10 @@ abstract class BaseBindingViewHolder<T>(open val binding: ViewDataBinding) : Rec
 
     val disposeBag = CompositeDisposable()
 
+    init {
+        initViewHolder()
+    }
+
     /**
      *  bind view model here
      */
@@ -28,5 +32,9 @@ abstract class BaseBindingViewHolder<T>(open val binding: ViewDataBinding) : Rec
         bind(data)
         // forces the bindings to run immediately
         binding.executePendingBindings()
+    }
+
+    private fun initViewHolder() {
+        bindEvent()
     }
 }
