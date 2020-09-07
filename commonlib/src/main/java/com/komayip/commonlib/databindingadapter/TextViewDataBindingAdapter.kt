@@ -75,15 +75,19 @@ class TextViewDataBindingAdapter {
         }
 
         @JvmStatic
-        @BindingAdapter("textColor")
+        @BindingAdapter("android:textColor")
         fun setColor(tv: TextView, @ColorInt res: Int) {
-            tv.setTextColor(res)
+            try {
+                tv.setTextColor(res)
+            } catch (e: Exception) { }
         }
 
         @JvmStatic
-        @BindingAdapter("textColor")
+        @BindingAdapter("android:textColor")
         fun setColorRes(tv: TextView, @ColorRes res: Int) {
-            tv.setTextColor(ContextCompat.getColor(tv.context, res))
+            try {
+                tv.setTextColor(ContextCompat.getColor(tv.context, res))
+            } catch (e: Exception) { }
         }
 
     }
