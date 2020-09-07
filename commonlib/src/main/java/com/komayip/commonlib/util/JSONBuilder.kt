@@ -1,5 +1,7 @@
 package com.komayip.commonlib.util
 
+import com.google.gson.Gson
+import com.google.gson.JsonObject
 import okhttp3.MediaType
 import okhttp3.RequestBody
 import org.json.JSONObject
@@ -10,23 +12,25 @@ import java.lang.Exception
  */
 open class JSONBuilder {
 
-    private var jsonObject: JSONObject = JSONObject()
+    private val gson = Gson()
+
+    private var map: HashMap<String, Any?> = HashMap()
 
     open fun append(key: String, value: Any?): JSONBuilder {
         try {
-            jsonObject.put(key, value?: JSONObject.NULL)
+            map[key] = value?: JSONObject.NULL
         } catch (e: Exception) {
             e.printStackTrace()
         }
         return this
     }
 
-    fun buildJSON(): JSONObject {
-        return jsonObject
+    fun buildJSON(): JsonObject {
+        return gson.toJsonTree(map).asJsonObject
     }
 
     fun buildJSONString(): String {
-        return jsonObject.toString()
+        return gson.toJson(map)
     }
 
     fun buildRequestBody(type: String = "application/json"): RequestBody {

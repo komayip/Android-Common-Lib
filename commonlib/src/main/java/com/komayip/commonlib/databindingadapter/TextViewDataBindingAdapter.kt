@@ -5,8 +5,11 @@ import android.text.Html
 import android.text.TextUtils
 import android.util.TypedValue
 import android.widget.TextView
+import androidx.annotation.ColorInt
+import androidx.annotation.ColorRes
 import androidx.annotation.DimenRes
 import androidx.annotation.StringRes
+import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import com.komayip.commonlib.R
 
@@ -69,6 +72,18 @@ class TextViewDataBindingAdapter {
                     tv.paintFlags = tv.paintFlags and Paint.UNDERLINE_TEXT_FLAG.inv()
                 }
             }
+        }
+
+        @JvmStatic
+        @BindingAdapter("textColor")
+        fun setColor(tv: TextView, @ColorInt res: Int) {
+            tv.setTextColor(res)
+        }
+
+        @JvmStatic
+        @BindingAdapter("textColor")
+        fun setColorRes(tv: TextView, @ColorRes res: Int) {
+            tv.setTextColor(ContextCompat.getColor(tv.context, res))
         }
 
     }
