@@ -35,6 +35,11 @@ class EmptyRecyclerView : ConstraintLayout {
         setupView(context, attrs, defStyleAttr)
     }
 
+    val recyclerView: RecyclerView
+    get() {
+        return rv
+    }
+
     /**
      * the adapter of the recycleview
      */
@@ -45,7 +50,7 @@ class EmptyRecyclerView : ConstraintLayout {
 
             field = value
 
-            recyclerview.adapter = value
+            rv.adapter = value
             value?.registerAdapterDataObserver(mAdapterDataObserver)
         }
 
@@ -56,7 +61,7 @@ class EmptyRecyclerView : ConstraintLayout {
         set(value) {
             field = value
 
-            recyclerview.layoutManager = value
+            rv.layoutManager = value
         }
 
     var itemDecoration: RecyclerView.ItemDecoration? = null
@@ -64,7 +69,7 @@ class EmptyRecyclerView : ConstraintLayout {
             field = value
 
             value?.let {
-                recyclerview.addItemDecoration(it)
+                rv.addItemDecoration(it)
             }
         }
 
@@ -136,10 +141,10 @@ class EmptyRecyclerView : ConstraintLayout {
         safeLet(emptyView, adapter) { v, a ->
             if (a.itemCount == 0) {
                 v.isInvisible = !(listener?.shouldEmptyViewAppear() ?: true)
-                recyclerview.isInvisible = true
+                rv.isInvisible = true
             } else {
                 v.isInvisible = true
-                recyclerview.isInvisible = false
+                rv.isInvisible = false
             }
         }
     }
