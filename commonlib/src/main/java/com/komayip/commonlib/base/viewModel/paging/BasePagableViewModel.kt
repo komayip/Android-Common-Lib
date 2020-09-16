@@ -16,7 +16,7 @@ import kotlin.math.min
  */
 abstract class BasePagableViewModel<T> : BaseViewModel() {
 
-    protected lateinit var mDataSource: DataSource<*, T>
+    protected var mDataSource: DataSource<*, T>? = null
 
     /**
      * the data source
@@ -27,7 +27,7 @@ abstract class BasePagableViewModel<T> : BaseViewModel() {
      * refresh the paging source, ie, reset to initial page
      */
     fun refreshData() {
-        mDataSource.invalidate()
+        mDataSource?.invalidate()
     }
 
     open fun fetchExecutor(): ExecutorService {

@@ -7,6 +7,7 @@ import android.view.MotionEvent
 import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
+import kotlin.math.max
 
 class StickyHeaderItemDecoration(
     parent: RecyclerView,
@@ -58,7 +59,7 @@ class StickyHeaderItemDecoration(
         val contactPoint = headerView.bottom + parent.paddingTop
         val childInContact = getChildInContact(parent, contactPoint) ?: return
 
-        if (isHeader(parent.getChildAdapterPosition(childInContact))) {
+        if (isHeader(max(0, parent.getChildAdapterPosition(childInContact)))) {
             moveHeader(c, headerView, childInContact, parent.paddingTop)
             return
         }
@@ -172,7 +173,7 @@ class StickyHeaderItemDecoration(
         var headerPosition = RecyclerView.NO_POSITION
         var currentPosition = itemPosition
         do {
-            if (isHeader(currentPosition)) {
+            if (isHeader(max(0, currentPosition))) {
                 headerPosition = currentPosition
                 break
             }
