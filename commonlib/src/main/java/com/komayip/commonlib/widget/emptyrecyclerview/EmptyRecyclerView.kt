@@ -171,6 +171,10 @@ class EmptyRecyclerView : SwipeRefreshLayout {
         super.setOnRefreshListener(listener)
     }
 
+    override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean {
+        return !isRefreshing && super.onStartNestedScroll(child, target, nestedScrollAxes)
+    }
+
     interface EmptyRecyclerViewListener {
         /**
          * callback when the empty layout has been inflated, say you want a button clickable etc
