@@ -124,6 +124,8 @@ class EmptyRecyclerView : SwipeRefreshLayout {
         this.isEnabled = false
         this.isRefreshing = false
 
+        recyclerView.isNestedScrollingEnabled = false
+
         // do any custom attribute setting
         val ta: TypedArray = getContext().obtainStyledAttributes(attrs, R.styleable.EmptyRecyclerView)
         try {
@@ -171,8 +173,8 @@ class EmptyRecyclerView : SwipeRefreshLayout {
         super.setOnRefreshListener(listener)
     }
 
-    override fun onStartNestedScroll(child: View, target: View, nestedScrollAxes: Int): Boolean {
-        return !isRefreshing && super.onStartNestedScroll(child, target, nestedScrollAxes)
+    override fun canChildScrollUp(): Boolean {
+        return recyclerView.canScrollVertically(-1)
     }
 
     interface EmptyRecyclerViewListener {
