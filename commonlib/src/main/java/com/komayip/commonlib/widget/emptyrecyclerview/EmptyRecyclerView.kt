@@ -7,14 +7,14 @@ import android.view.LayoutInflater
 import android.view.View
 import androidx.annotation.LayoutRes
 import androidx.annotation.Nullable
-import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.view.isInvisible
 import androidx.recyclerview.widget.RecyclerView
+import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.komayip.commonlib.R
 import com.komayip.commonlib.ext.safeLet
 import kotlinx.android.synthetic.main.layout_empty_recyclerview.view.*
 
-class EmptyRecyclerView : ConstraintLayout {
+class EmptyRecyclerView : SwipeRefreshLayout {
 
     constructor(context: Context) : super(context) {
         setupView(context, null, 0)
@@ -25,14 +25,6 @@ class EmptyRecyclerView : ConstraintLayout {
         attrs: AttributeSet?
     ) : super(context, attrs) {
         setupView(context, attrs, 0)
-    }
-
-    constructor(
-        context: Context,
-        attrs: AttributeSet?,
-        defStyleAttr: Int
-    ) : super(context, attrs, defStyleAttr) {
-        setupView(context, attrs, defStyleAttr)
     }
 
     val recyclerView: RecyclerView
@@ -127,6 +119,11 @@ class EmptyRecyclerView : ConstraintLayout {
         defStyleAttr: Int
     ) {
         LayoutInflater.from(context).inflate(R.layout.layout_empty_recyclerview, this, true)
+
+        // default disable swipe
+        this.isEnabled = false
+        this.isRefreshing = false
+
         // do any custom attribute setting
         val ta: TypedArray = getContext().obtainStyledAttributes(attrs, R.styleable.EmptyRecyclerView)
         try {
@@ -167,6 +164,11 @@ class EmptyRecyclerView : ConstraintLayout {
         emptyView?.let {
             listener?.onEmptyLayoutInflated(it)
         }
+    }
+
+    override fun setOnRefreshListener(listener: OnRefreshListener?) {
+        isEnabled = true
+        super.setOnRefreshListener(listener)
     }
 
     interface EmptyRecyclerViewListener {
